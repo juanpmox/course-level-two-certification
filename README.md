@@ -1,1 +1,0 @@
-# course-level-two-certification
