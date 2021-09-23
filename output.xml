@@ -1,0 +1,1333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 4.1.1 (Python 3.7.5 on win32)" generated="20210923 10:11:14.375" rpa="true" schemaversion="2">
+<suite id="s1" name="Tasks" source="c:\GitLocalRepo\RootRobocorp\course-level-two-certification\build-a-robot-level-two\tasks.robot">
+<test id="s1-t1" name="Order robots from RobotSpareBin Industries Inc">
+<kw name="Open the robot order website">
+<kw name="Open Available Browser" library="RPA.Browser.Selenium">
+<arg>${RobotOrderSite}</arg>
+<doc>Attempts to open a browser on the user's device from a set of
+supported browsers. Automatically downloads a corresponding webdriver
+if none is already installed.</doc>
+<msg timestamp="20210923 10:11:15.406" level="INFO">Creating an instance of the Chrome WebDriver.</msg>
+<msg timestamp="20210923 10:11:15.418" level="INFO">Created download root directory: C:\Users\JuanPabloMartinezOnt\AppData\Local\robocorp\webdrivers</msg>
+<msg timestamp="20210923 10:11:15.418" level="INFO">Created symlink directory: C:\Users\JuanPabloMartinezOnt\AppData\Local\robocorp\webdrivers</msg>
+<msg timestamp="20210923 10:11:15.419" level="INFO">Creating an instance of the Chrome WebDriver.</msg>
+<msg timestamp="20210923 10:11:16.699" level="INFO">Created Chrome browser with arguments: --disable-dev-shm-usage --disable-web-security --allow-running-insecure-content --no-sandbox</msg>
+<msg timestamp="20210923 10:11:16.699" level="INFO" html="true">&lt;p&gt;Attempted combinations:&lt;/p&gt;&lt;div class="doc"&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;Browser&lt;/th&gt;&lt;th&gt;Download&lt;/th&gt;&lt;th&gt;Error&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Chrome&lt;/td&gt;&lt;td&gt;False&lt;/td&gt;&lt;td&gt;Message: 'chromedriver' executable needs to be in PATH. Please see https://sites.google.com/a/chromium.org/chromedriver/home
+&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Chrome&lt;/td&gt;&lt;td&gt;True&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</msg>
+<msg timestamp="20210923 10:11:16.699" level="INFO">Opening url 'https://robotsparebinindustries.com/#/robot-order'</msg>
+<status status="PASS" starttime="20210923 10:11:15.405" endtime="20210923 10:11:18.228"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:15.405" endtime="20210923 10:11:18.228"/>
+</kw>
+<kw name="Close the annoying modal">
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>I guess so...</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:18.229" level="INFO">Clicking button 'I guess so...'.</msg>
+<status status="PASS" starttime="20210923 10:11:18.229" endtime="20210923 10:11:18.291"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:18.228" endtime="20210923 10:11:18.292"/>
+</kw>
+<kw name="Get orders data">
+<var>${orders}</var>
+<kw name="Download" library="RPA.HTTP">
+<arg>${RobotOrdersFile}</arg>
+<arg>overwrite=True</arg>
+<doc>An alias for the ``HTTP Get`` keyword.</doc>
+<msg timestamp="20210923 10:11:18.293" level="INFO">Creating a new HTTP session</msg>
+<msg timestamp="20210923 10:11:18.293" level="INFO">Creating Session using : alias=rpasession_alias.httpsrobotsparebinindustries.com, url=https://robotsparebinindustries.com, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=True,                     debug=0 </msg>
+<msg timestamp="20210923 10:11:21.763" level="INFO">GET Request : url=https://robotsparebinindustries.com/orders.csv 
+ path_url=/orders.csv 
+ headers={'User-Agent': 'python-requests/2.26.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20210923 10:11:21.764" level="INFO">GET Response : url=https://robotsparebinindustries.com/orders.csv 
+ status=200, reason=OK 
+ body=Order number,Head,Body,Legs,Address
+1,1,2,3,Address 123
+2,4,1,5,Address 456
+3,6,2,3,Address 789
+4,2,3,2,Address 1
+5,3,5,1,Address 2
+6,1,6,6,Address 3
+7,5,1,5,Address 4
+8,2,3,3,Address 5
+9,3,2,2,Address 6
+10,4,4,2,Address 7
+11,6,6,1,Address 8
+12,1,3,3,Address 9
+13,1,5,4,Address A
+14,3,1,5,Address B
+15,3,2,6,Address C
+16,6,3,6,Address D
+17,5,4,1,Address E
+18,2,5,1,Address F
+19,4,6,2,Address G
+20,1,1,5,Address H 
+ </msg>
+<status status="PASS" starttime="20210923 10:11:18.292" endtime="20210923 10:11:21.765"/>
+</kw>
+<kw name="Read table from CSV" library="RPA.Tables">
+<var>${data}</var>
+<arg>${datafile}</arg>
+<doc>Read a CSV file as a table.</doc>
+<msg timestamp="20210923 10:11:21.776" level="INFO">${data} = Table(columns=['Order number', 'Head', 'Body', 'Legs', 'Address'], rows=20)</msg>
+<status status="PASS" starttime="20210923 10:11:21.765" endtime="20210923 10:11:21.776"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Found columns: ${data.columns}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210923 10:11:21.777" level="INFO">Found columns: ['Order number', 'Head', 'Body', 'Legs', 'Address']</msg>
+<status status="PASS" starttime="20210923 10:11:21.776" endtime="20210923 10:11:21.777"/>
+</kw>
+<msg timestamp="20210923 10:11:21.778" level="INFO">${orders} = Table(columns=['Order number', 'Head', 'Body', 'Legs', 'Address'], rows=20)</msg>
+<status status="PASS" starttime="20210923 10:11:18.292" endtime="20210923 10:11:21.778"/>
+</kw>
+<for flavor="IN">
+<var>${row}</var>
+<value>@{orders}</value>
+<iter>
+<var name="${row}">{'Order number': '1', 'Head': '1', 'Body': '2', 'Legs': '3', 'Address': 'Address 123'}</var>
+<kw name="Log" library="BuiltIn">
+<arg>${row}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210923 10:11:21.779" level="INFO">{'Order number': '1', 'Head': '1', 'Body': '2', 'Legs': '3', 'Address': 'Address 123'}</msg>
+<status status="PASS" starttime="20210923 10:11:21.779" endtime="20210923 10:11:21.779"/>
+</kw>
+<kw name="Fill the form">
+<arg>${row}</arg>
+<kw name="Select From List By Value" library="RPA.Browser.Selenium">
+<arg>id:head</arg>
+<arg>${row}[Head]</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<msg timestamp="20210923 10:11:21.780" level="INFO">Selecting options from selection list 'id:head' by value 1.</msg>
+<status status="PASS" starttime="20210923 10:11:21.779" endtime="20210923 10:11:21.849"/>
+</kw>
+<kw name="Click Element" library="RPA.Browser.Selenium">
+<arg>id:id-body-${row}[Body]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:21.850" level="INFO">Clicking element 'id:id-body-2'.</msg>
+<status status="PASS" starttime="20210923 10:11:21.849" endtime="20210923 10:11:21.898"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${select-legs}</var>
+<arg>xpath://input[contains(@id,'16')]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210923 10:11:21.899" level="INFO">${select-legs} = xpath://input[contains(@id,'16')]</msg>
+<status status="PASS" starttime="20210923 10:11:21.898" endtime="20210923 10:11:21.899"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>${select-legs}</arg>
+<arg>${row}[Legs]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:21.900" level="INFO">Typing text '3' into text field 'xpath://input[contains(@id,'16')]'.</msg>
+<status status="PASS" starttime="20210923 10:11:21.899" endtime="20210923 10:11:21.983"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:address</arg>
+<arg>${row}[Address]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:21.984" level="INFO">Typing text 'Address 123' into text field 'id:address'.</msg>
+<status status="PASS" starttime="20210923 10:11:21.983" endtime="20210923 10:11:22.060"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${target_as_string}</var>
+<arg>${row}[Head]</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210923 10:11:22.061" level="INFO">${target_as_string} = 1</msg>
+<status status="PASS" starttime="20210923 10:11:22.061" endtime="20210923 10:11:22.061"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>id:preview</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:22.062" level="INFO">Clicking button 'id:preview'.</msg>
+<status status="PASS" starttime="20210923 10:11:22.061" endtime="20210923 10:11:22.131"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:21.779" endtime="20210923 10:11:22.131"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:21.778" endtime="20210923 10:11:22.131"/>
+</iter>
+<iter>
+<var name="${row}">{'Order number': '2', 'Head': '4', 'Body': '1', 'Legs': '5', 'Address': 'Address 456'}</var>
+<kw name="Log" library="BuiltIn">
+<arg>${row}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210923 10:11:22.132" level="INFO">{'Order number': '2', 'Head': '4', 'Body': '1', 'Legs': '5', 'Address': 'Address 456'}</msg>
+<status status="PASS" starttime="20210923 10:11:22.132" endtime="20210923 10:11:22.132"/>
+</kw>
+<kw name="Fill the form">
+<arg>${row}</arg>
+<kw name="Select From List By Value" library="RPA.Browser.Selenium">
+<arg>id:head</arg>
+<arg>${row}[Head]</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<msg timestamp="20210923 10:11:22.133" level="INFO">Selecting options from selection list 'id:head' by value 4.</msg>
+<status status="PASS" starttime="20210923 10:11:22.132" endtime="20210923 10:11:22.206"/>
+</kw>
+<kw name="Click Element" library="RPA.Browser.Selenium">
+<arg>id:id-body-${row}[Body]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:22.207" level="INFO">Clicking element 'id:id-body-1'.</msg>
+<status status="PASS" starttime="20210923 10:11:22.206" endtime="20210923 10:11:22.260"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${select-legs}</var>
+<arg>xpath://input[contains(@id,'16')]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210923 10:11:22.260" level="INFO">${select-legs} = xpath://input[contains(@id,'16')]</msg>
+<status status="PASS" starttime="20210923 10:11:22.260" endtime="20210923 10:11:22.260"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>${select-legs}</arg>
+<arg>${row}[Legs]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:22.261" level="INFO">Typing text '5' into text field 'xpath://input[contains(@id,'16')]'.</msg>
+<status status="PASS" starttime="20210923 10:11:22.261" endtime="20210923 10:11:22.312"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:address</arg>
+<arg>${row}[Address]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:22.312" level="INFO">Typing text 'Address 456' into text field 'id:address'.</msg>
+<status status="PASS" starttime="20210923 10:11:22.312" endtime="20210923 10:11:22.377"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${target_as_string}</var>
+<arg>${row}[Head]</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210923 10:11:22.378" level="INFO">${target_as_string} = 4</msg>
+<status status="PASS" starttime="20210923 10:11:22.378" endtime="20210923 10:11:22.378"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>id:preview</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:22.378" level="INFO">Clicking button 'id:preview'.</msg>
+<status status="PASS" starttime="20210923 10:11:22.378" endtime="20210923 10:11:22.412"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:22.132" endtime="20210923 10:11:22.413"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:22.131" endtime="20210923 10:11:22.413"/>
+</iter>
+<iter>
+<var name="${row}">{'Order number': '3', 'Head': '6', 'Body': '2', 'Legs': '3', 'Address': 'Address 789'}</var>
+<kw name="Log" library="BuiltIn">
+<arg>${row}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210923 10:11:22.413" level="INFO">{'Order number': '3', 'Head': '6', 'Body': '2', 'Legs': '3', 'Address': 'Address 789'}</msg>
+<status status="PASS" starttime="20210923 10:11:22.413" endtime="20210923 10:11:22.413"/>
+</kw>
+<kw name="Fill the form">
+<arg>${row}</arg>
+<kw name="Select From List By Value" library="RPA.Browser.Selenium">
+<arg>id:head</arg>
+<arg>${row}[Head]</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<msg timestamp="20210923 10:11:22.414" level="INFO">Selecting options from selection list 'id:head' by value 6.</msg>
+<status status="PASS" starttime="20210923 10:11:22.414" endtime="20210923 10:11:22.466"/>
+</kw>
+<kw name="Click Element" library="RPA.Browser.Selenium">
+<arg>id:id-body-${row}[Body]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:22.466" level="INFO">Clicking element 'id:id-body-2'.</msg>
+<status status="PASS" starttime="20210923 10:11:22.466" endtime="20210923 10:11:22.505"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${select-legs}</var>
+<arg>xpath://input[contains(@id,'16')]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210923 10:11:22.505" level="INFO">${select-legs} = xpath://input[contains(@id,'16')]</msg>
+<status status="PASS" starttime="20210923 10:11:22.505" endtime="20210923 10:11:22.506"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>${select-legs}</arg>
+<arg>${row}[Legs]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:22.506" level="INFO">Typing text '3' into text field 'xpath://input[contains(@id,'16')]'.</msg>
+<status status="PASS" starttime="20210923 10:11:22.506" endtime="20210923 10:11:22.573"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:address</arg>
+<arg>${row}[Address]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:22.574" level="INFO">Typing text 'Address 789' into text field 'id:address'.</msg>
+<status status="PASS" starttime="20210923 10:11:22.574" endtime="20210923 10:11:22.638"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${target_as_string}</var>
+<arg>${row}[Head]</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210923 10:11:22.639" level="INFO">${target_as_string} = 6</msg>
+<status status="PASS" starttime="20210923 10:11:22.639" endtime="20210923 10:11:22.639"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>id:preview</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:22.639" level="INFO">Clicking button 'id:preview'.</msg>
+<status status="PASS" starttime="20210923 10:11:22.639" endtime="20210923 10:11:22.678"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:22.413" endtime="20210923 10:11:22.678"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:22.413" endtime="20210923 10:11:22.678"/>
+</iter>
+<iter>
+<var name="${row}">{'Order number': '4', 'Head': '2', 'Body': '3', 'Legs': '2', 'Address': 'Address 1'}</var>
+<kw name="Log" library="BuiltIn">
+<arg>${row}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210923 10:11:22.679" level="INFO">{'Order number': '4', 'Head': '2', 'Body': '3', 'Legs': '2', 'Address': 'Address 1'}</msg>
+<status status="PASS" starttime="20210923 10:11:22.679" endtime="20210923 10:11:22.679"/>
+</kw>
+<kw name="Fill the form">
+<arg>${row}</arg>
+<kw name="Select From List By Value" library="RPA.Browser.Selenium">
+<arg>id:head</arg>
+<arg>${row}[Head]</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<msg timestamp="20210923 10:11:22.680" level="INFO">Selecting options from selection list 'id:head' by value 2.</msg>
+<status status="PASS" starttime="20210923 10:11:22.680" endtime="20210923 10:11:22.734"/>
+</kw>
+<kw name="Click Element" library="RPA.Browser.Selenium">
+<arg>id:id-body-${row}[Body]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:22.735" level="INFO">Clicking element 'id:id-body-3'.</msg>
+<status status="PASS" starttime="20210923 10:11:22.734" endtime="20210923 10:11:22.780"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${select-legs}</var>
+<arg>xpath://input[contains(@id,'16')]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210923 10:11:22.780" level="INFO">${select-legs} = xpath://input[contains(@id,'16')]</msg>
+<status status="PASS" starttime="20210923 10:11:22.780" endtime="20210923 10:11:22.780"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>${select-legs}</arg>
+<arg>${row}[Legs]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:22.781" level="INFO">Typing text '2' into text field 'xpath://input[contains(@id,'16')]'.</msg>
+<status status="PASS" starttime="20210923 10:11:22.780" endtime="20210923 10:11:22.824"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:address</arg>
+<arg>${row}[Address]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:22.825" level="INFO">Typing text 'Address 1' into text field 'id:address'.</msg>
+<status status="PASS" starttime="20210923 10:11:22.825" endtime="20210923 10:11:22.880"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${target_as_string}</var>
+<arg>${row}[Head]</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210923 10:11:22.881" level="INFO">${target_as_string} = 2</msg>
+<status status="PASS" starttime="20210923 10:11:22.880" endtime="20210923 10:11:22.881"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>id:preview</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:22.881" level="INFO">Clicking button 'id:preview'.</msg>
+<status status="PASS" starttime="20210923 10:11:22.881" endtime="20210923 10:11:22.922"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:22.679" endtime="20210923 10:11:22.922"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:22.679" endtime="20210923 10:11:22.922"/>
+</iter>
+<iter>
+<var name="${row}">{'Order number': '5', 'Head': '3', 'Body': '5', 'Legs': '1', 'Address': 'Address 2'}</var>
+<kw name="Log" library="BuiltIn">
+<arg>${row}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210923 10:11:22.923" level="INFO">{'Order number': '5', 'Head': '3', 'Body': '5', 'Legs': '1', 'Address': 'Address 2'}</msg>
+<status status="PASS" starttime="20210923 10:11:22.922" endtime="20210923 10:11:22.923"/>
+</kw>
+<kw name="Fill the form">
+<arg>${row}</arg>
+<kw name="Select From List By Value" library="RPA.Browser.Selenium">
+<arg>id:head</arg>
+<arg>${row}[Head]</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<msg timestamp="20210923 10:11:22.924" level="INFO">Selecting options from selection list 'id:head' by value 3.</msg>
+<status status="PASS" starttime="20210923 10:11:22.924" endtime="20210923 10:11:22.988"/>
+</kw>
+<kw name="Click Element" library="RPA.Browser.Selenium">
+<arg>id:id-body-${row}[Body]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:22.989" level="INFO">Clicking element 'id:id-body-5'.</msg>
+<status status="PASS" starttime="20210923 10:11:22.988" endtime="20210923 10:11:23.043"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${select-legs}</var>
+<arg>xpath://input[contains(@id,'16')]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210923 10:11:23.043" level="INFO">${select-legs} = xpath://input[contains(@id,'16')]</msg>
+<status status="PASS" starttime="20210923 10:11:23.043" endtime="20210923 10:11:23.043"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>${select-legs}</arg>
+<arg>${row}[Legs]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:23.044" level="INFO">Typing text '1' into text field 'xpath://input[contains(@id,'16')]'.</msg>
+<status status="PASS" starttime="20210923 10:11:23.043" endtime="20210923 10:11:23.096"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:address</arg>
+<arg>${row}[Address]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:23.096" level="INFO">Typing text 'Address 2' into text field 'id:address'.</msg>
+<status status="PASS" starttime="20210923 10:11:23.096" endtime="20210923 10:11:23.166"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${target_as_string}</var>
+<arg>${row}[Head]</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210923 10:11:23.167" level="INFO">${target_as_string} = 3</msg>
+<status status="PASS" starttime="20210923 10:11:23.166" endtime="20210923 10:11:23.167"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>id:preview</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:23.168" level="INFO">Clicking button 'id:preview'.</msg>
+<status status="PASS" starttime="20210923 10:11:23.167" endtime="20210923 10:11:23.203"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:22.923" endtime="20210923 10:11:23.203"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:22.922" endtime="20210923 10:11:23.203"/>
+</iter>
+<iter>
+<var name="${row}">{'Order number': '6', 'Head': '1', 'Body': '6', 'Legs': '6', 'Address': 'Address 3'}</var>
+<kw name="Log" library="BuiltIn">
+<arg>${row}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210923 10:11:23.204" level="INFO">{'Order number': '6', 'Head': '1', 'Body': '6', 'Legs': '6', 'Address': 'Address 3'}</msg>
+<status status="PASS" starttime="20210923 10:11:23.204" endtime="20210923 10:11:23.204"/>
+</kw>
+<kw name="Fill the form">
+<arg>${row}</arg>
+<kw name="Select From List By Value" library="RPA.Browser.Selenium">
+<arg>id:head</arg>
+<arg>${row}[Head]</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<msg timestamp="20210923 10:11:23.205" level="INFO">Selecting options from selection list 'id:head' by value 1.</msg>
+<status status="PASS" starttime="20210923 10:11:23.205" endtime="20210923 10:11:23.241"/>
+</kw>
+<kw name="Click Element" library="RPA.Browser.Selenium">
+<arg>id:id-body-${row}[Body]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:23.242" level="INFO">Clicking element 'id:id-body-6'.</msg>
+<status status="PASS" starttime="20210923 10:11:23.241" endtime="20210923 10:11:23.292"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${select-legs}</var>
+<arg>xpath://input[contains(@id,'16')]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210923 10:11:23.293" level="INFO">${select-legs} = xpath://input[contains(@id,'16')]</msg>
+<status status="PASS" starttime="20210923 10:11:23.292" endtime="20210923 10:11:23.293"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>${select-legs}</arg>
+<arg>${row}[Legs]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:23.293" level="INFO">Typing text '6' into text field 'xpath://input[contains(@id,'16')]'.</msg>
+<status status="PASS" starttime="20210923 10:11:23.293" endtime="20210923 10:11:23.340"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:address</arg>
+<arg>${row}[Address]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:23.341" level="INFO">Typing text 'Address 3' into text field 'id:address'.</msg>
+<status status="PASS" starttime="20210923 10:11:23.340" endtime="20210923 10:11:23.394"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${target_as_string}</var>
+<arg>${row}[Head]</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210923 10:11:23.395" level="INFO">${target_as_string} = 1</msg>
+<status status="PASS" starttime="20210923 10:11:23.394" endtime="20210923 10:11:23.395"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>id:preview</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:23.395" level="INFO">Clicking button 'id:preview'.</msg>
+<status status="PASS" starttime="20210923 10:11:23.395" endtime="20210923 10:11:23.431"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:23.204" endtime="20210923 10:11:23.431"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:23.203" endtime="20210923 10:11:23.431"/>
+</iter>
+<iter>
+<var name="${row}">{'Order number': '7', 'Head': '5', 'Body': '1', 'Legs': '5', 'Address': 'Address 4'}</var>
+<kw name="Log" library="BuiltIn">
+<arg>${row}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210923 10:11:23.432" level="INFO">{'Order number': '7', 'Head': '5', 'Body': '1', 'Legs': '5', 'Address': 'Address 4'}</msg>
+<status status="PASS" starttime="20210923 10:11:23.431" endtime="20210923 10:11:23.432"/>
+</kw>
+<kw name="Fill the form">
+<arg>${row}</arg>
+<kw name="Select From List By Value" library="RPA.Browser.Selenium">
+<arg>id:head</arg>
+<arg>${row}[Head]</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<msg timestamp="20210923 10:11:23.432" level="INFO">Selecting options from selection list 'id:head' by value 5.</msg>
+<status status="PASS" starttime="20210923 10:11:23.432" endtime="20210923 10:11:23.483"/>
+</kw>
+<kw name="Click Element" library="RPA.Browser.Selenium">
+<arg>id:id-body-${row}[Body]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:23.484" level="INFO">Clicking element 'id:id-body-1'.</msg>
+<status status="PASS" starttime="20210923 10:11:23.483" endtime="20210923 10:11:23.511"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${select-legs}</var>
+<arg>xpath://input[contains(@id,'16')]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210923 10:11:23.511" level="INFO">${select-legs} = xpath://input[contains(@id,'16')]</msg>
+<status status="PASS" starttime="20210923 10:11:23.511" endtime="20210923 10:11:23.511"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>${select-legs}</arg>
+<arg>${row}[Legs]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:23.511" level="INFO">Typing text '5' into text field 'xpath://input[contains(@id,'16')]'.</msg>
+<status status="PASS" starttime="20210923 10:11:23.511" endtime="20210923 10:11:23.572"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:address</arg>
+<arg>${row}[Address]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:23.573" level="INFO">Typing text 'Address 4' into text field 'id:address'.</msg>
+<status status="PASS" starttime="20210923 10:11:23.573" endtime="20210923 10:11:23.630"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${target_as_string}</var>
+<arg>${row}[Head]</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210923 10:11:23.631" level="INFO">${target_as_string} = 5</msg>
+<status status="PASS" starttime="20210923 10:11:23.631" endtime="20210923 10:11:23.631"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>id:preview</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:23.632" level="INFO">Clicking button 'id:preview'.</msg>
+<status status="PASS" starttime="20210923 10:11:23.631" endtime="20210923 10:11:23.666"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:23.432" endtime="20210923 10:11:23.666"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:23.431" endtime="20210923 10:11:23.666"/>
+</iter>
+<iter>
+<var name="${row}">{'Order number': '8', 'Head': '2', 'Body': '3', 'Legs': '3', 'Address': 'Address 5'}</var>
+<kw name="Log" library="BuiltIn">
+<arg>${row}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210923 10:11:23.667" level="INFO">{'Order number': '8', 'Head': '2', 'Body': '3', 'Legs': '3', 'Address': 'Address 5'}</msg>
+<status status="PASS" starttime="20210923 10:11:23.666" endtime="20210923 10:11:23.667"/>
+</kw>
+<kw name="Fill the form">
+<arg>${row}</arg>
+<kw name="Select From List By Value" library="RPA.Browser.Selenium">
+<arg>id:head</arg>
+<arg>${row}[Head]</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<msg timestamp="20210923 10:11:23.668" level="INFO">Selecting options from selection list 'id:head' by value 2.</msg>
+<status status="PASS" starttime="20210923 10:11:23.667" endtime="20210923 10:11:23.705"/>
+</kw>
+<kw name="Click Element" library="RPA.Browser.Selenium">
+<arg>id:id-body-${row}[Body]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:23.706" level="INFO">Clicking element 'id:id-body-3'.</msg>
+<status status="PASS" starttime="20210923 10:11:23.705" endtime="20210923 10:11:23.730"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${select-legs}</var>
+<arg>xpath://input[contains(@id,'16')]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210923 10:11:23.731" level="INFO">${select-legs} = xpath://input[contains(@id,'16')]</msg>
+<status status="PASS" starttime="20210923 10:11:23.730" endtime="20210923 10:11:23.731"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>${select-legs}</arg>
+<arg>${row}[Legs]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:23.731" level="INFO">Typing text '3' into text field 'xpath://input[contains(@id,'16')]'.</msg>
+<status status="PASS" starttime="20210923 10:11:23.731" endtime="20210923 10:11:23.776"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:address</arg>
+<arg>${row}[Address]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:23.777" level="INFO">Typing text 'Address 5' into text field 'id:address'.</msg>
+<status status="PASS" starttime="20210923 10:11:23.776" endtime="20210923 10:11:23.831"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${target_as_string}</var>
+<arg>${row}[Head]</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210923 10:11:23.832" level="INFO">${target_as_string} = 2</msg>
+<status status="PASS" starttime="20210923 10:11:23.832" endtime="20210923 10:11:23.832"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>id:preview</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:23.832" level="INFO">Clicking button 'id:preview'.</msg>
+<status status="PASS" starttime="20210923 10:11:23.832" endtime="20210923 10:11:23.868"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:23.667" endtime="20210923 10:11:23.868"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:23.666" endtime="20210923 10:11:23.868"/>
+</iter>
+<iter>
+<var name="${row}">{'Order number': '9', 'Head': '3', 'Body': '2', 'Legs': '2', 'Address': 'Address 6'}</var>
+<kw name="Log" library="BuiltIn">
+<arg>${row}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210923 10:11:23.869" level="INFO">{'Order number': '9', 'Head': '3', 'Body': '2', 'Legs': '2', 'Address': 'Address 6'}</msg>
+<status status="PASS" starttime="20210923 10:11:23.868" endtime="20210923 10:11:23.869"/>
+</kw>
+<kw name="Fill the form">
+<arg>${row}</arg>
+<kw name="Select From List By Value" library="RPA.Browser.Selenium">
+<arg>id:head</arg>
+<arg>${row}[Head]</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<msg timestamp="20210923 10:11:23.871" level="INFO">Selecting options from selection list 'id:head' by value 3.</msg>
+<status status="PASS" starttime="20210923 10:11:23.870" endtime="20210923 10:11:23.906"/>
+</kw>
+<kw name="Click Element" library="RPA.Browser.Selenium">
+<arg>id:id-body-${row}[Body]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:23.907" level="INFO">Clicking element 'id:id-body-2'.</msg>
+<status status="PASS" starttime="20210923 10:11:23.907" endtime="20210923 10:11:23.931"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${select-legs}</var>
+<arg>xpath://input[contains(@id,'16')]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210923 10:11:23.931" level="INFO">${select-legs} = xpath://input[contains(@id,'16')]</msg>
+<status status="PASS" starttime="20210923 10:11:23.931" endtime="20210923 10:11:23.931"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>${select-legs}</arg>
+<arg>${row}[Legs]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:23.932" level="INFO">Typing text '2' into text field 'xpath://input[contains(@id,'16')]'.</msg>
+<status status="PASS" starttime="20210923 10:11:23.931" endtime="20210923 10:11:23.976"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:address</arg>
+<arg>${row}[Address]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:23.976" level="INFO">Typing text 'Address 6' into text field 'id:address'.</msg>
+<status status="PASS" starttime="20210923 10:11:23.976" endtime="20210923 10:11:24.025"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${target_as_string}</var>
+<arg>${row}[Head]</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210923 10:11:24.026" level="INFO">${target_as_string} = 3</msg>
+<status status="PASS" starttime="20210923 10:11:24.026" endtime="20210923 10:11:24.026"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>id:preview</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:24.026" level="INFO">Clicking button 'id:preview'.</msg>
+<status status="PASS" starttime="20210923 10:11:24.026" endtime="20210923 10:11:24.066"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:23.869" endtime="20210923 10:11:24.066"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:23.868" endtime="20210923 10:11:24.066"/>
+</iter>
+<iter>
+<var name="${row}">{'Order number': '10', 'Head': '4', 'Body': '4', 'Legs': '2', 'Address': 'Address 7'}</var>
+<kw name="Log" library="BuiltIn">
+<arg>${row}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210923 10:11:24.067" level="INFO">{'Order number': '10', 'Head': '4', 'Body': '4', 'Legs': '2', 'Address': 'Address 7'}</msg>
+<status status="PASS" starttime="20210923 10:11:24.067" endtime="20210923 10:11:24.067"/>
+</kw>
+<kw name="Fill the form">
+<arg>${row}</arg>
+<kw name="Select From List By Value" library="RPA.Browser.Selenium">
+<arg>id:head</arg>
+<arg>${row}[Head]</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<msg timestamp="20210923 10:11:24.068" level="INFO">Selecting options from selection list 'id:head' by value 4.</msg>
+<status status="PASS" starttime="20210923 10:11:24.068" endtime="20210923 10:11:24.109"/>
+</kw>
+<kw name="Click Element" library="RPA.Browser.Selenium">
+<arg>id:id-body-${row}[Body]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:24.110" level="INFO">Clicking element 'id:id-body-4'.</msg>
+<status status="PASS" starttime="20210923 10:11:24.110" endtime="20210923 10:11:24.151"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${select-legs}</var>
+<arg>xpath://input[contains(@id,'16')]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210923 10:11:24.152" level="INFO">${select-legs} = xpath://input[contains(@id,'16')]</msg>
+<status status="PASS" starttime="20210923 10:11:24.151" endtime="20210923 10:11:24.152"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>${select-legs}</arg>
+<arg>${row}[Legs]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:24.153" level="INFO">Typing text '2' into text field 'xpath://input[contains(@id,'16')]'.</msg>
+<status status="PASS" starttime="20210923 10:11:24.153" endtime="20210923 10:11:24.195"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:address</arg>
+<arg>${row}[Address]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:24.196" level="INFO">Typing text 'Address 7' into text field 'id:address'.</msg>
+<status status="PASS" starttime="20210923 10:11:24.195" endtime="20210923 10:11:24.258"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${target_as_string}</var>
+<arg>${row}[Head]</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210923 10:11:24.259" level="INFO">${target_as_string} = 4</msg>
+<status status="PASS" starttime="20210923 10:11:24.259" endtime="20210923 10:11:24.259"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>id:preview</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:24.259" level="INFO">Clicking button 'id:preview'.</msg>
+<status status="PASS" starttime="20210923 10:11:24.259" endtime="20210923 10:11:24.303"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:24.067" endtime="20210923 10:11:24.303"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:24.066" endtime="20210923 10:11:24.303"/>
+</iter>
+<iter>
+<var name="${row}">{'Order number': '11', 'Head': '6', 'Body': '6', 'Legs': '1', 'Address': 'Address 8'}</var>
+<kw name="Log" library="BuiltIn">
+<arg>${row}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210923 10:11:24.304" level="INFO">{'Order number': '11', 'Head': '6', 'Body': '6', 'Legs': '1', 'Address': 'Address 8'}</msg>
+<status status="PASS" starttime="20210923 10:11:24.304" endtime="20210923 10:11:24.304"/>
+</kw>
+<kw name="Fill the form">
+<arg>${row}</arg>
+<kw name="Select From List By Value" library="RPA.Browser.Selenium">
+<arg>id:head</arg>
+<arg>${row}[Head]</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<msg timestamp="20210923 10:11:24.306" level="INFO">Selecting options from selection list 'id:head' by value 6.</msg>
+<status status="PASS" starttime="20210923 10:11:24.305" endtime="20210923 10:11:24.348"/>
+</kw>
+<kw name="Click Element" library="RPA.Browser.Selenium">
+<arg>id:id-body-${row}[Body]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:24.348" level="INFO">Clicking element 'id:id-body-6'.</msg>
+<status status="PASS" starttime="20210923 10:11:24.348" endtime="20210923 10:11:24.375"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${select-legs}</var>
+<arg>xpath://input[contains(@id,'16')]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210923 10:11:24.375" level="INFO">${select-legs} = xpath://input[contains(@id,'16')]</msg>
+<status status="PASS" starttime="20210923 10:11:24.375" endtime="20210923 10:11:24.375"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>${select-legs}</arg>
+<arg>${row}[Legs]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:24.376" level="INFO">Typing text '1' into text field 'xpath://input[contains(@id,'16')]'.</msg>
+<status status="PASS" starttime="20210923 10:11:24.376" endtime="20210923 10:11:24.418"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:address</arg>
+<arg>${row}[Address]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:24.419" level="INFO">Typing text 'Address 8' into text field 'id:address'.</msg>
+<status status="PASS" starttime="20210923 10:11:24.419" endtime="20210923 10:11:24.468"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${target_as_string}</var>
+<arg>${row}[Head]</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210923 10:11:24.469" level="INFO">${target_as_string} = 6</msg>
+<status status="PASS" starttime="20210923 10:11:24.469" endtime="20210923 10:11:24.469"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>id:preview</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:24.470" level="INFO">Clicking button 'id:preview'.</msg>
+<status status="PASS" starttime="20210923 10:11:24.469" endtime="20210923 10:11:24.507"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:24.304" endtime="20210923 10:11:24.507"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:24.303" endtime="20210923 10:11:24.507"/>
+</iter>
+<iter>
+<var name="${row}">{'Order number': '12', 'Head': '1', 'Body': '3', 'Legs': '3', 'Address': 'Address 9'}</var>
+<kw name="Log" library="BuiltIn">
+<arg>${row}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210923 10:11:24.508" level="INFO">{'Order number': '12', 'Head': '1', 'Body': '3', 'Legs': '3', 'Address': 'Address 9'}</msg>
+<status status="PASS" starttime="20210923 10:11:24.508" endtime="20210923 10:11:24.508"/>
+</kw>
+<kw name="Fill the form">
+<arg>${row}</arg>
+<kw name="Select From List By Value" library="RPA.Browser.Selenium">
+<arg>id:head</arg>
+<arg>${row}[Head]</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<msg timestamp="20210923 10:11:24.509" level="INFO">Selecting options from selection list 'id:head' by value 1.</msg>
+<status status="PASS" starttime="20210923 10:11:24.508" endtime="20210923 10:11:24.559"/>
+</kw>
+<kw name="Click Element" library="RPA.Browser.Selenium">
+<arg>id:id-body-${row}[Body]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:24.560" level="INFO">Clicking element 'id:id-body-3'.</msg>
+<status status="PASS" starttime="20210923 10:11:24.560" endtime="20210923 10:11:24.594"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${select-legs}</var>
+<arg>xpath://input[contains(@id,'16')]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210923 10:11:24.595" level="INFO">${select-legs} = xpath://input[contains(@id,'16')]</msg>
+<status status="PASS" starttime="20210923 10:11:24.595" endtime="20210923 10:11:24.595"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>${select-legs}</arg>
+<arg>${row}[Legs]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:24.596" level="INFO">Typing text '3' into text field 'xpath://input[contains(@id,'16')]'.</msg>
+<status status="PASS" starttime="20210923 10:11:24.595" endtime="20210923 10:11:24.652"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:address</arg>
+<arg>${row}[Address]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:24.654" level="INFO">Typing text 'Address 9' into text field 'id:address'.</msg>
+<status status="PASS" starttime="20210923 10:11:24.653" endtime="20210923 10:11:24.709"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${target_as_string}</var>
+<arg>${row}[Head]</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210923 10:11:24.709" level="INFO">${target_as_string} = 1</msg>
+<status status="PASS" starttime="20210923 10:11:24.709" endtime="20210923 10:11:24.710"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>id:preview</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:24.710" level="INFO">Clicking button 'id:preview'.</msg>
+<status status="PASS" starttime="20210923 10:11:24.710" endtime="20210923 10:11:24.749"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:24.508" endtime="20210923 10:11:24.750"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:24.508" endtime="20210923 10:11:24.750"/>
+</iter>
+<iter>
+<var name="${row}">{'Order number': '13', 'Head': '1', 'Body': '5', 'Legs': '4', 'Address': 'Address A'}</var>
+<kw name="Log" library="BuiltIn">
+<arg>${row}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210923 10:11:24.750" level="INFO">{'Order number': '13', 'Head': '1', 'Body': '5', 'Legs': '4', 'Address': 'Address A'}</msg>
+<status status="PASS" starttime="20210923 10:11:24.750" endtime="20210923 10:11:24.750"/>
+</kw>
+<kw name="Fill the form">
+<arg>${row}</arg>
+<kw name="Select From List By Value" library="RPA.Browser.Selenium">
+<arg>id:head</arg>
+<arg>${row}[Head]</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<msg timestamp="20210923 10:11:24.751" level="INFO">Selecting options from selection list 'id:head' by value 1.</msg>
+<status status="PASS" starttime="20210923 10:11:24.751" endtime="20210923 10:11:24.786"/>
+</kw>
+<kw name="Click Element" library="RPA.Browser.Selenium">
+<arg>id:id-body-${row}[Body]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:24.787" level="INFO">Clicking element 'id:id-body-5'.</msg>
+<status status="PASS" starttime="20210923 10:11:24.787" endtime="20210923 10:11:24.816"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${select-legs}</var>
+<arg>xpath://input[contains(@id,'16')]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210923 10:11:24.816" level="INFO">${select-legs} = xpath://input[contains(@id,'16')]</msg>
+<status status="PASS" starttime="20210923 10:11:24.816" endtime="20210923 10:11:24.816"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>${select-legs}</arg>
+<arg>${row}[Legs]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:24.817" level="INFO">Typing text '4' into text field 'xpath://input[contains(@id,'16')]'.</msg>
+<status status="PASS" starttime="20210923 10:11:24.816" endtime="20210923 10:11:24.873"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:address</arg>
+<arg>${row}[Address]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:24.873" level="INFO">Typing text 'Address A' into text field 'id:address'.</msg>
+<status status="PASS" starttime="20210923 10:11:24.873" endtime="20210923 10:11:24.931"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${target_as_string}</var>
+<arg>${row}[Head]</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210923 10:11:24.931" level="INFO">${target_as_string} = 1</msg>
+<status status="PASS" starttime="20210923 10:11:24.931" endtime="20210923 10:11:24.931"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>id:preview</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:24.932" level="INFO">Clicking button 'id:preview'.</msg>
+<status status="PASS" starttime="20210923 10:11:24.932" endtime="20210923 10:11:24.965"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:24.750" endtime="20210923 10:11:24.965"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:24.750" endtime="20210923 10:11:24.965"/>
+</iter>
+<iter>
+<var name="${row}">{'Order number': '14', 'Head': '3', 'Body': '1', 'Legs': '5', 'Address': 'Address B'}</var>
+<kw name="Log" library="BuiltIn">
+<arg>${row}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210923 10:11:24.966" level="INFO">{'Order number': '14', 'Head': '3', 'Body': '1', 'Legs': '5', 'Address': 'Address B'}</msg>
+<status status="PASS" starttime="20210923 10:11:24.965" endtime="20210923 10:11:24.966"/>
+</kw>
+<kw name="Fill the form">
+<arg>${row}</arg>
+<kw name="Select From List By Value" library="RPA.Browser.Selenium">
+<arg>id:head</arg>
+<arg>${row}[Head]</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<msg timestamp="20210923 10:11:24.967" level="INFO">Selecting options from selection list 'id:head' by value 3.</msg>
+<status status="PASS" starttime="20210923 10:11:24.966" endtime="20210923 10:11:24.999"/>
+</kw>
+<kw name="Click Element" library="RPA.Browser.Selenium">
+<arg>id:id-body-${row}[Body]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:24.999" level="INFO">Clicking element 'id:id-body-1'.</msg>
+<status status="PASS" starttime="20210923 10:11:24.999" endtime="20210923 10:11:25.030"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${select-legs}</var>
+<arg>xpath://input[contains(@id,'16')]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210923 10:11:25.031" level="INFO">${select-legs} = xpath://input[contains(@id,'16')]</msg>
+<status status="PASS" starttime="20210923 10:11:25.030" endtime="20210923 10:11:25.031"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>${select-legs}</arg>
+<arg>${row}[Legs]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:25.031" level="INFO">Typing text '5' into text field 'xpath://input[contains(@id,'16')]'.</msg>
+<status status="PASS" starttime="20210923 10:11:25.031" endtime="20210923 10:11:25.095"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:address</arg>
+<arg>${row}[Address]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:25.095" level="INFO">Typing text 'Address B' into text field 'id:address'.</msg>
+<status status="PASS" starttime="20210923 10:11:25.095" endtime="20210923 10:11:25.165"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${target_as_string}</var>
+<arg>${row}[Head]</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210923 10:11:25.166" level="INFO">${target_as_string} = 3</msg>
+<status status="PASS" starttime="20210923 10:11:25.166" endtime="20210923 10:11:25.166"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>id:preview</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:25.167" level="INFO">Clicking button 'id:preview'.</msg>
+<status status="PASS" starttime="20210923 10:11:25.167" endtime="20210923 10:11:25.215"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:24.966" endtime="20210923 10:11:25.215"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:24.965" endtime="20210923 10:11:25.215"/>
+</iter>
+<iter>
+<var name="${row}">{'Order number': '15', 'Head': '3', 'Body': '2', 'Legs': '6', 'Address': 'Address C'}</var>
+<kw name="Log" library="BuiltIn">
+<arg>${row}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210923 10:11:25.216" level="INFO">{'Order number': '15', 'Head': '3', 'Body': '2', 'Legs': '6', 'Address': 'Address C'}</msg>
+<status status="PASS" starttime="20210923 10:11:25.216" endtime="20210923 10:11:25.216"/>
+</kw>
+<kw name="Fill the form">
+<arg>${row}</arg>
+<kw name="Select From List By Value" library="RPA.Browser.Selenium">
+<arg>id:head</arg>
+<arg>${row}[Head]</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<msg timestamp="20210923 10:11:25.217" level="INFO">Selecting options from selection list 'id:head' by value 3.</msg>
+<status status="PASS" starttime="20210923 10:11:25.217" endtime="20210923 10:11:25.256"/>
+</kw>
+<kw name="Click Element" library="RPA.Browser.Selenium">
+<arg>id:id-body-${row}[Body]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:25.256" level="INFO">Clicking element 'id:id-body-2'.</msg>
+<status status="PASS" starttime="20210923 10:11:25.256" endtime="20210923 10:11:25.290"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${select-legs}</var>
+<arg>xpath://input[contains(@id,'16')]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210923 10:11:25.290" level="INFO">${select-legs} = xpath://input[contains(@id,'16')]</msg>
+<status status="PASS" starttime="20210923 10:11:25.290" endtime="20210923 10:11:25.290"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>${select-legs}</arg>
+<arg>${row}[Legs]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:25.291" level="INFO">Typing text '6' into text field 'xpath://input[contains(@id,'16')]'.</msg>
+<status status="PASS" starttime="20210923 10:11:25.290" endtime="20210923 10:11:25.355"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:address</arg>
+<arg>${row}[Address]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:25.356" level="INFO">Typing text 'Address C' into text field 'id:address'.</msg>
+<status status="PASS" starttime="20210923 10:11:25.355" endtime="20210923 10:11:25.417"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${target_as_string}</var>
+<arg>${row}[Head]</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210923 10:11:25.418" level="INFO">${target_as_string} = 3</msg>
+<status status="PASS" starttime="20210923 10:11:25.417" endtime="20210923 10:11:25.418"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>id:preview</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:25.418" level="INFO">Clicking button 'id:preview'.</msg>
+<status status="PASS" starttime="20210923 10:11:25.418" endtime="20210923 10:11:25.464"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:25.216" endtime="20210923 10:11:25.464"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:25.216" endtime="20210923 10:11:25.464"/>
+</iter>
+<iter>
+<var name="${row}">{'Order number': '16', 'Head': '6', 'Body': '3', 'Legs': '6', 'Address': 'Address D'}</var>
+<kw name="Log" library="BuiltIn">
+<arg>${row}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210923 10:11:25.465" level="INFO">{'Order number': '16', 'Head': '6', 'Body': '3', 'Legs': '6', 'Address': 'Address D'}</msg>
+<status status="PASS" starttime="20210923 10:11:25.465" endtime="20210923 10:11:25.465"/>
+</kw>
+<kw name="Fill the form">
+<arg>${row}</arg>
+<kw name="Select From List By Value" library="RPA.Browser.Selenium">
+<arg>id:head</arg>
+<arg>${row}[Head]</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<msg timestamp="20210923 10:11:25.466" level="INFO">Selecting options from selection list 'id:head' by value 6.</msg>
+<status status="PASS" starttime="20210923 10:11:25.466" endtime="20210923 10:11:25.517"/>
+</kw>
+<kw name="Click Element" library="RPA.Browser.Selenium">
+<arg>id:id-body-${row}[Body]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:25.517" level="INFO">Clicking element 'id:id-body-3'.</msg>
+<status status="PASS" starttime="20210923 10:11:25.517" endtime="20210923 10:11:25.552"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${select-legs}</var>
+<arg>xpath://input[contains(@id,'16')]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210923 10:11:25.553" level="INFO">${select-legs} = xpath://input[contains(@id,'16')]</msg>
+<status status="PASS" starttime="20210923 10:11:25.552" endtime="20210923 10:11:25.553"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>${select-legs}</arg>
+<arg>${row}[Legs]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:25.554" level="INFO">Typing text '6' into text field 'xpath://input[contains(@id,'16')]'.</msg>
+<status status="PASS" starttime="20210923 10:11:25.553" endtime="20210923 10:11:25.616"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:address</arg>
+<arg>${row}[Address]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:25.616" level="INFO">Typing text 'Address D' into text field 'id:address'.</msg>
+<status status="PASS" starttime="20210923 10:11:25.616" endtime="20210923 10:11:25.683"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${target_as_string}</var>
+<arg>${row}[Head]</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210923 10:11:25.683" level="INFO">${target_as_string} = 6</msg>
+<status status="PASS" starttime="20210923 10:11:25.683" endtime="20210923 10:11:25.684"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>id:preview</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:25.684" level="INFO">Clicking button 'id:preview'.</msg>
+<status status="PASS" starttime="20210923 10:11:25.684" endtime="20210923 10:11:25.727"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:25.465" endtime="20210923 10:11:25.727"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:25.464" endtime="20210923 10:11:25.727"/>
+</iter>
+<iter>
+<var name="${row}">{'Order number': '17', 'Head': '5', 'Body': '4', 'Legs': '1', 'Address': 'Address E'}</var>
+<kw name="Log" library="BuiltIn">
+<arg>${row}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210923 10:11:25.728" level="INFO">{'Order number': '17', 'Head': '5', 'Body': '4', 'Legs': '1', 'Address': 'Address E'}</msg>
+<status status="PASS" starttime="20210923 10:11:25.728" endtime="20210923 10:11:25.728"/>
+</kw>
+<kw name="Fill the form">
+<arg>${row}</arg>
+<kw name="Select From List By Value" library="RPA.Browser.Selenium">
+<arg>id:head</arg>
+<arg>${row}[Head]</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<msg timestamp="20210923 10:11:25.729" level="INFO">Selecting options from selection list 'id:head' by value 5.</msg>
+<status status="PASS" starttime="20210923 10:11:25.728" endtime="20210923 10:11:25.773"/>
+</kw>
+<kw name="Click Element" library="RPA.Browser.Selenium">
+<arg>id:id-body-${row}[Body]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:25.774" level="INFO">Clicking element 'id:id-body-4'.</msg>
+<status status="PASS" starttime="20210923 10:11:25.773" endtime="20210923 10:11:25.799"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${select-legs}</var>
+<arg>xpath://input[contains(@id,'16')]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210923 10:11:25.800" level="INFO">${select-legs} = xpath://input[contains(@id,'16')]</msg>
+<status status="PASS" starttime="20210923 10:11:25.799" endtime="20210923 10:11:25.800"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>${select-legs}</arg>
+<arg>${row}[Legs]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:25.800" level="INFO">Typing text '1' into text field 'xpath://input[contains(@id,'16')]'.</msg>
+<status status="PASS" starttime="20210923 10:11:25.800" endtime="20210923 10:11:25.849"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:address</arg>
+<arg>${row}[Address]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:25.849" level="INFO">Typing text 'Address E' into text field 'id:address'.</msg>
+<status status="PASS" starttime="20210923 10:11:25.849" endtime="20210923 10:11:25.906"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${target_as_string}</var>
+<arg>${row}[Head]</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210923 10:11:25.907" level="INFO">${target_as_string} = 5</msg>
+<status status="PASS" starttime="20210923 10:11:25.906" endtime="20210923 10:11:25.907"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>id:preview</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:25.907" level="INFO">Clicking button 'id:preview'.</msg>
+<status status="PASS" starttime="20210923 10:11:25.907" endtime="20210923 10:11:25.946"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:25.728" endtime="20210923 10:11:25.947"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:25.727" endtime="20210923 10:11:25.947"/>
+</iter>
+<iter>
+<var name="${row}">{'Order number': '18', 'Head': '2', 'Body': '5', 'Legs': '1', 'Address': 'Address F'}</var>
+<kw name="Log" library="BuiltIn">
+<arg>${row}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210923 10:11:25.947" level="INFO">{'Order number': '18', 'Head': '2', 'Body': '5', 'Legs': '1', 'Address': 'Address F'}</msg>
+<status status="PASS" starttime="20210923 10:11:25.947" endtime="20210923 10:11:25.947"/>
+</kw>
+<kw name="Fill the form">
+<arg>${row}</arg>
+<kw name="Select From List By Value" library="RPA.Browser.Selenium">
+<arg>id:head</arg>
+<arg>${row}[Head]</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<msg timestamp="20210923 10:11:25.948" level="INFO">Selecting options from selection list 'id:head' by value 2.</msg>
+<status status="PASS" starttime="20210923 10:11:25.948" endtime="20210923 10:11:25.985"/>
+</kw>
+<kw name="Click Element" library="RPA.Browser.Selenium">
+<arg>id:id-body-${row}[Body]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:25.987" level="INFO">Clicking element 'id:id-body-5'.</msg>
+<status status="PASS" starttime="20210923 10:11:25.986" endtime="20210923 10:11:26.010"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${select-legs}</var>
+<arg>xpath://input[contains(@id,'16')]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210923 10:11:26.011" level="INFO">${select-legs} = xpath://input[contains(@id,'16')]</msg>
+<status status="PASS" starttime="20210923 10:11:26.010" endtime="20210923 10:11:26.011"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>${select-legs}</arg>
+<arg>${row}[Legs]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:26.012" level="INFO">Typing text '1' into text field 'xpath://input[contains(@id,'16')]'.</msg>
+<status status="PASS" starttime="20210923 10:11:26.011" endtime="20210923 10:11:26.056"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:address</arg>
+<arg>${row}[Address]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:26.057" level="INFO">Typing text 'Address F' into text field 'id:address'.</msg>
+<status status="PASS" starttime="20210923 10:11:26.056" endtime="20210923 10:11:26.111"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${target_as_string}</var>
+<arg>${row}[Head]</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210923 10:11:26.111" level="INFO">${target_as_string} = 2</msg>
+<status status="PASS" starttime="20210923 10:11:26.111" endtime="20210923 10:11:26.112"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>id:preview</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:26.112" level="INFO">Clicking button 'id:preview'.</msg>
+<status status="PASS" starttime="20210923 10:11:26.112" endtime="20210923 10:11:26.160"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:25.948" endtime="20210923 10:11:26.160"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:25.947" endtime="20210923 10:11:26.160"/>
+</iter>
+<iter>
+<var name="${row}">{'Order number': '19', 'Head': '4', 'Body': '6', 'Legs': '2', 'Address': 'Address G'}</var>
+<kw name="Log" library="BuiltIn">
+<arg>${row}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210923 10:11:26.161" level="INFO">{'Order number': '19', 'Head': '4', 'Body': '6', 'Legs': '2', 'Address': 'Address G'}</msg>
+<status status="PASS" starttime="20210923 10:11:26.160" endtime="20210923 10:11:26.161"/>
+</kw>
+<kw name="Fill the form">
+<arg>${row}</arg>
+<kw name="Select From List By Value" library="RPA.Browser.Selenium">
+<arg>id:head</arg>
+<arg>${row}[Head]</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<msg timestamp="20210923 10:11:26.162" level="INFO">Selecting options from selection list 'id:head' by value 4.</msg>
+<status status="PASS" starttime="20210923 10:11:26.161" endtime="20210923 10:11:26.215"/>
+</kw>
+<kw name="Click Element" library="RPA.Browser.Selenium">
+<arg>id:id-body-${row}[Body]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:26.215" level="INFO">Clicking element 'id:id-body-6'.</msg>
+<status status="PASS" starttime="20210923 10:11:26.215" endtime="20210923 10:11:26.245"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${select-legs}</var>
+<arg>xpath://input[contains(@id,'16')]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210923 10:11:26.246" level="INFO">${select-legs} = xpath://input[contains(@id,'16')]</msg>
+<status status="PASS" starttime="20210923 10:11:26.246" endtime="20210923 10:11:26.246"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>${select-legs}</arg>
+<arg>${row}[Legs]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:26.247" level="INFO">Typing text '2' into text field 'xpath://input[contains(@id,'16')]'.</msg>
+<status status="PASS" starttime="20210923 10:11:26.246" endtime="20210923 10:11:26.305"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:address</arg>
+<arg>${row}[Address]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:26.306" level="INFO">Typing text 'Address G' into text field 'id:address'.</msg>
+<status status="PASS" starttime="20210923 10:11:26.305" endtime="20210923 10:11:26.375"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${target_as_string}</var>
+<arg>${row}[Head]</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210923 10:11:26.376" level="INFO">${target_as_string} = 4</msg>
+<status status="PASS" starttime="20210923 10:11:26.375" endtime="20210923 10:11:26.376"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>id:preview</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:26.376" level="INFO">Clicking button 'id:preview'.</msg>
+<status status="PASS" starttime="20210923 10:11:26.376" endtime="20210923 10:11:26.426"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:26.161" endtime="20210923 10:11:26.426"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:26.160" endtime="20210923 10:11:26.426"/>
+</iter>
+<iter>
+<var name="${row}">{'Order number': '20', 'Head': '1', 'Body': '1', 'Legs': '5', 'Address': 'Address H'}</var>
+<kw name="Log" library="BuiltIn">
+<arg>${row}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210923 10:11:26.427" level="INFO">{'Order number': '20', 'Head': '1', 'Body': '1', 'Legs': '5', 'Address': 'Address H'}</msg>
+<status status="PASS" starttime="20210923 10:11:26.426" endtime="20210923 10:11:26.427"/>
+</kw>
+<kw name="Fill the form">
+<arg>${row}</arg>
+<kw name="Select From List By Value" library="RPA.Browser.Selenium">
+<arg>id:head</arg>
+<arg>${row}[Head]</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<msg timestamp="20210923 10:11:26.427" level="INFO">Selecting options from selection list 'id:head' by value 1.</msg>
+<status status="PASS" starttime="20210923 10:11:26.427" endtime="20210923 10:11:26.481"/>
+</kw>
+<kw name="Click Element" library="RPA.Browser.Selenium">
+<arg>id:id-body-${row}[Body]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:26.481" level="INFO">Clicking element 'id:id-body-1'.</msg>
+<status status="PASS" starttime="20210923 10:11:26.481" endtime="20210923 10:11:26.513"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${select-legs}</var>
+<arg>xpath://input[contains(@id,'16')]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210923 10:11:26.513" level="INFO">${select-legs} = xpath://input[contains(@id,'16')]</msg>
+<status status="PASS" starttime="20210923 10:11:26.513" endtime="20210923 10:11:26.513"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>${select-legs}</arg>
+<arg>${row}[Legs]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:26.514" level="INFO">Typing text '5' into text field 'xpath://input[contains(@id,'16')]'.</msg>
+<status status="PASS" starttime="20210923 10:11:26.514" endtime="20210923 10:11:26.573"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:address</arg>
+<arg>${row}[Address]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:26.573" level="INFO">Typing text 'Address H' into text field 'id:address'.</msg>
+<status status="PASS" starttime="20210923 10:11:26.573" endtime="20210923 10:11:26.635"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${target_as_string}</var>
+<arg>${row}[Head]</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210923 10:11:26.636" level="INFO">${target_as_string} = 1</msg>
+<status status="PASS" starttime="20210923 10:11:26.635" endtime="20210923 10:11:26.636"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>id:preview</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20210923 10:11:26.636" level="INFO">Clicking button 'id:preview'.</msg>
+<status status="PASS" starttime="20210923 10:11:26.636" endtime="20210923 10:11:26.681"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:26.427" endtime="20210923 10:11:26.681"/>
+</kw>
+<status status="PASS" starttime="20210923 10:11:26.426" endtime="20210923 10:11:26.681"/>
+</iter>
+<status status="PASS" starttime="20210923 10:11:21.778" endtime="20210923 10:11:26.681"/>
+</for>
+<status status="PASS" starttime="20210923 10:11:15.404" endtime="20210923 10:11:26.681"/>
+</test>
+<doc>Orders robots from RobotSpareBin Industries Inc.
+Saves the order HTML receipt as a PDF file.
+Saves the screenshot of the ordered robot.
+Embeds the screenshot of the robot to the PDF receipt.
+Creates ZIP archive of the receipts and the images.</doc>
+<status status="PASS" starttime="20210923 10:11:14.378" endtime="20210923 10:11:26.682"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tasks</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="Tasks">Tasks</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
