@@ -4,39 +4,33 @@ Documentation     Orders robots from RobotSpareBin Industries Inc.
 ...               Saves the screenshot of the ordered robot.
 ...               Embeds the screenshot of the robot to the PDF receipt.
 ...               Creates ZIP archive of the receipts and the images.
-# Library  RPA.Browser.Selenium
 Library    RPA.HTTP
 Library    RPA.Tables
 Library    RPA.Browser.Selenium
+Library    RPA.Robocorp.Vault
 
 
 *** Variables ***
-${RobotOrderSite}=    https://robotsparebinindustries.com/#/robot-order
-${RobotOrdersFile}=    https://robotsparebinindustries.com/orders.csv
-${datafile}=    orders.csv
+${ROBOT_ORDER_SITE}=    https://robotsparebinindustries.com/#/robot-order
+${ROBOT_ORDERS_FILE}=    https://robotsparebinindustries.com/orders.csv
+${DATAFILE}=    orders.csv
 
 
 *** Keywords ***
 Open the robot order website
-    Open Available Browser    ${RobotOrderSite}
+    Open Available Browser    ${ROBOT_ORDER_SITE}
 
 
 Get orders data
-    Download    ${RobotOrdersFile}    overwrite=True
-    ${data}=    Read table from CSV    ${datafile}
+    Download    ${ROBOT_ORDERS_FILE}    overwrite=True
+    ${data}=    Read table from CSV    ${DATAFILE}
     Log    Found columns: ${data.columns} 
-    # ${first}=    Get table row    ${data}
-    # Log     Handling order: ${first}[Order ID]
-    # ${row}=      Get table row    ${data}    -1    as_list=${TRUE}
-    # Log    Row: ${row}
-    # FOR    ${value}    IN    @{row}
-    #    Log    Data point: ${value}
-    # END
-    [Return]    ${data} 
+    [Return]    ${data}
 
 
 Close the annoying modal
-    Click Button    I guess so...
+    ${button_danger}=    Set Variable    xpath://button[@class="btn btn-danger"]
+    Click Button    ${button_danger}    # I guess so...
 
 
 Fill the form
@@ -49,7 +43,7 @@ Fill the form
     Input Text    id:address    ${row}[Address]
     ${target_as_string}=    Convert To String    ${row}[Head]
     
-
+Preview the robot
     Click Button    id:preview
 
 
@@ -62,7 +56,7 @@ Order robots from RobotSpareBin Industries Inc
     FOR    ${row}    IN    @{orders}
         Log    ${row}
         Fill the form    ${row}
-    #     Preview the robot
+        Preview the robot
     #     Submit the order
     #     ${pdf}=    Store the receipt as a PDF file    ${row}[Order number]
     #     ${screenshot}=    Take a screenshot of the robot    ${row}[Order number]
@@ -70,3 +64,10 @@ Order robots from RobotSpareBin Industries Inc
     #     Go to order another robot
     END
     # Create a ZIP file of the receipts
+
+
+Get and log the value of the vault secrets using the Get Secret keyword
+        ${secret}=    Get Secret    credentials
+        # Note: in real robots, you should not print secrets to the log. this is just for demonstration purposes :)
+        Log    ${secret}[username]
+        Log    ${secret}[password]
