@@ -136,7 +136,7 @@ Embed the robot screenshot to the receipt PDF file
     ${files}=    Create List
         ...    ${order_pdf}
         ...    ${order_screenshot}:align=center
-    Add Files To PDF    ${files}    ${CURDIR}${/}output${/}receipts${/}order_a-1.pdf
+    Add Files To PDF    ${files}    ${CURDIR}${/}output${/}receipts${/}order_a-{order_number}.pdf
     Log    ${files}
     Add Watermark Image To PDF
     ...    source_path=${order_pdf}
