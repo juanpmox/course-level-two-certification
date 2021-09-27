@@ -29,7 +29,7 @@ Collect orders url from user
     Add text    If yo don't know the url, use the link below this line:
     Add link    ${ROBOT_ORDERS_FILE}
     # ${dialog}=    Show dialog    title=Input form
-    ${response}=    Run dialog    title=Insert url    height=300
+    ${response}=    Run dialog    title=Insert url    height=360
     [Return]    ${response.csvfileurl}
 
 
@@ -144,7 +144,7 @@ Embed the robot screenshot to the receipt PDF file
     ...    output_path=${CURDIR}${/}output${/}receipts${/}order_w-${order_number}.pdf
     Close Pdf    ${order_pdf}
     Remove file    ${order_pdf}
-    # Remove File    ${order_screenshot}
+    Remove File    ${order_screenshot}
 
 
 Go to order another robot
@@ -156,7 +156,7 @@ Go to order another robot
 
 
 Create a ZIP file of the receipts
-    Archive Folder With Zip  ${CURDIR}${/}output${/}receipts${/}    output${/}receipts.zip
+    Archive Folder With Zip  ${CURDIR}${/}output${/}receipts${/}    ${CURDIR}${/}output${/}receipts.zip
 
 
 *** Tasks ***
