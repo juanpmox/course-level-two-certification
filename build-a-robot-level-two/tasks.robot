@@ -15,9 +15,7 @@ Library    RPA.Dialogs
 
 
 *** Variables ***
-# ${ROBOT_ORDER_SITE}=    https://robotsparebinindustries.com/#/robot-order
 ${ROBOT_ORDERS_FILE}=    https://robotsparebinindustries.com/orders.csv
-# ${DATAFILE}=    orders.csv
 ${GLOBAL_RETRY_AMOUNT}=    5x
 ${GLOBAL_RETRY_INTERVAL}=    0.5s
 
@@ -34,27 +32,22 @@ Collect orders url from user
 
 
 Collect orders file from user
-    Add heading    Upload orders file
+    Add heading    Download orders file
     Add file input
-    ...    label=Upload the file with orders data
-    ...    name=fileupload
-    # ...    file_type=Excel files (*.xls;*.xlsx)
+    ...    label=Download the file with orders data
+    ...    name=fileudownload
     ...    destination=${CURDIR}${/}input
     ${response}=    Run dialog
-    [Return]    ${response.fileupload}[0]
+    [Return]    ${response.filedownload}[0]
 
 
 Open the robot order website
-    # Open Available Browser    ${ROBOT_ORDER_SITE}
     ${robots_order_site}=    Get Secret    website
     Open Available Browser     ${robots_order_site}[url]
 
 
 Get orders data
     [Arguments]    ${orders_fileurl}
-    # [Arguments]    ${datafile}
-    # ${data}=    Read table from CSV    ${datafile}
-    # Download    ${ROBOT_ORDERS_FILE}    overwrite=True
     Download    ${orders_fileurl}    target_file=${CURDIR}${/}input${/}new_orders.csv    overwrite=True
     ${data}=    Read table from CSV    ${CURDIR}${/}input${/}new_orders.csv    
     Log    Found columns: ${data.columns} 
@@ -100,7 +93,6 @@ Submit the order
         Click Button    id:order
         # Checking if submit is Ok!
         ${submit_Ok}=    Does Page Contain    Receipt
-        # Log    ${submit_Ok}
         Exit For Loop If    ${submit_Ok}
     END
     
@@ -116,7 +108,7 @@ Store the receipt as a PDF file
 Take a screenshot of the robot
     [Arguments]    ${order_number}
     Wait Until Element Is Visible    id:robot-preview-image
-    ### This try to improve the screenshot capture, to get the whole robot image preview
+    # Trying to improve the screenshot capture, to get the whole robot image preview
     ${img_head}=    Set Variable    xpath://img[contains(@alt,'Head')]
     Wait Until Element Is Visible    ${img_head}
     ${img_body}=    Set Variable    xpath://img[contains(@alt,'Body')]
@@ -129,15 +121,10 @@ Take a screenshot of the robot
 
 Embed the robot screenshot to the receipt PDF file
     [Arguments]    ${order_number}    ${order_pdf}    ${order_screenshot}
-    # Log    ${order_number}
-    # Log    ${order_pdf}
-    # Log    ${order_screenshot}
-    # Add files to pdf
     ${files}=    Create List
         ...    ${order_pdf}
         ...    ${order_screenshot}:align=center
     Add Files To PDF    ${files}    ${CURDIR}${/}output${/}receipts${/}order_a-${order_number}.pdf
-    Log    ${files}
     Add Watermark Image To PDF
     ...    source_path=${order_pdf}
     ...    image_path=${order_screenshot}
@@ -148,7 +135,7 @@ Embed the robot screenshot to the receipt PDF file
 
 
 Go to order another robot
-    Wait Until Keyword Succeeds    #5x    1s
+    Wait Until Keyword Succeeds
     ...    ${GLOBAL_RETRY_AMOUNT}
     ...    ${GLOBAL_RETRY_INTERVAL}
     ...    Wait Until Page Contains Element     id:order-another
@@ -162,9 +149,7 @@ Create a ZIP file of the receipts
 *** Tasks ***
 Order robots from RobotSpareBin Industries Inc
     ${orders_fileurl}=    Collect orders url from user
-    # ${orders_fileupload}=    Collect orders file from user
     Open the robot order website  
-    # ${orders}=    Get orders data    ${orders_fileupload}
     ${orders}=    Get orders data    ${orders_fileurl}
     FOR    ${row}    IN    @{orders}
         Close the annoying modal 
@@ -176,8 +161,4 @@ Order robots from RobotSpareBin Industries Inc
         Embed the robot screenshot to the receipt PDF file    ${row}[Order number]    ${pdf}    ${screenshot}
         Go to order another robot
     END
-    
     Create a ZIP file of the receipts
-
-    [Teardown]
-    
