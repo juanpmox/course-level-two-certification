@@ -161,4 +161,5 @@ Order robots from RobotSpareBin Industries Inc
         Embed the robot screenshot to the receipt PDF file    ${row}[Order number]    ${pdf}    ${screenshot}
         Go to order another robot
     END
+    Log    ${RPA_SECRET_FILE}
     Create a ZIP file of the receipts
